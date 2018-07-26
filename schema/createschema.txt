@@ -1,0 +1,197 @@
+create keyspace Claimspace
+  with placement_strategy = 'NetworkTopologyStrategy'
+  and strategy_options = {datacenter1 : 1}
+  and durable_writes = true;
+
+use Claimspace;
+
+create column family claims
+  with column_type = 'Standard'
+  and comparator = 'UTF8Type'
+  and default_validation_class = 'UTF8Type'
+  and key_validation_class = 'UUIDType'
+  and rows_cached = 0.0
+  and row_cache_save_period = 0
+  and row_cache_keys_to_save = 2147483647
+  and keys_cached = 200000.0
+  and key_cache_save_period = 14400
+  and read_repair_chance = 1.0
+  and gc_grace = 864000
+  and min_compaction_threshold = 4
+  and max_compaction_threshold = 32
+  and replicate_on_write = true
+  and row_cache_provider = 'ConcurrentLinkedHashCacheProvider'
+  and compaction_strategy = 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy';
+
+create column family patients
+  with column_type = 'Standard'
+  and comparator = 'UTF8Type'
+  and default_validation_class = 'UTF8Type'
+  and key_validation_class = 'UTF8Type'
+  and rows_cached = 0.0
+  and row_cache_save_period = 0
+  and row_cache_keys_to_save = 2147483647
+  and keys_cached = 200000.0
+  and key_cache_save_period = 14400
+  and read_repair_chance = 1.0
+  and gc_grace = 864000
+  and min_compaction_threshold = 4
+  and max_compaction_threshold = 32
+  and replicate_on_write = true
+  and row_cache_provider = 'ConcurrentLinkedHashCacheProvider'
+  and compaction_strategy = 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy'
+  and column_metadata = [
+    {column_name : 'insuredsDOB',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsIDnumber',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsaddresscity',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsaddressline1',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsaddressline2',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsaddressstate',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsaddresszip',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsemployersorschoolsname',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsinsuranceplanorprogramname',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsisthereanotherhealthplan',
+    validation_class : UTF8Type},
+    {column_name : 'insuredsname',
+    validation_class : UTF8Type},
+    {column_name : 'insuredspolicygrouporfeca',
+    validation_class : UTF8Type},
+    {column_name : 'insuredssex',
+    validation_class : UTF8Type},
+    {column_name : 'insuredstelephone',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredsDOB',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredsemployersorschoolsname',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredsinsuranceplanorprogramname',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredsname',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredspolicyorgroup',
+    validation_class : UTF8Type},
+    {column_name : 'otherinsuredssex',
+    validation_class : UTF8Type},
+    {column_name : 'patientDOB',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddresscity',
+    validation_class : UTF8Type},
+    {column_name : 'patientconditionrelatedto',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddressline1',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddressline2',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddressstate',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddresstelephone',
+    validation_class : UTF8Type},
+    {column_name : 'patientaddresszip',
+    validation_class : UTF8Type},
+    {column_name : 'patientid',
+    validation_class : UTF8Type},
+    {column_name : 'patientname',
+    validation_class : UTF8Type},
+    {column_name : 'patientsex',
+    validation_class : UTF8Type},
+    {column_name : 'patientsrelation',
+    validation_class : UTF8Type},
+    {column_name : 'patientstatus',
+    validation_class : UTF8Type},
+    {column_name : 'patienttype',
+    validation_class : UTF8Type},
+    {column_name : 'reservedforlocaluse',
+    validation_class : UTF8Type}];
+
+create column family provider_claim_map
+  with column_type = 'Super'
+  and comparator = 'UUIDType'
+  and subcomparator = 'UTF8Type'
+  and default_validation_class = 'UTF8Type'
+  and key_validation_class = 'UTF8Type'
+  and rows_cached = 0.0
+  and row_cache_save_period = 0
+  and row_cache_keys_to_save = 2147483647
+  and keys_cached = 200000.0
+  and key_cache_save_period = 14400
+  and read_repair_chance = 1.0
+  and gc_grace = 864000
+  and min_compaction_threshold = 4
+  and max_compaction_threshold = 32
+  and replicate_on_write = true
+  and row_cache_provider = 'ConcurrentLinkedHashCacheProvider'
+  and compaction_strategy = 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy'
+  and column_metadata = [
+    {column_name : 'claimpatient',
+    validation_class : UTF8Type},
+    {column_name : 'claimstatus',
+    validation_class : UTF8Type}];
+
+create column family provider_patient_map
+  with column_type = 'Standard'
+  and comparator = 'UTF8Type'
+  and default_validation_class = 'UTF8Type'
+  and key_validation_class = 'UTF8Type'
+  and rows_cached = 0.0
+  and row_cache_save_period = 0
+  and row_cache_keys_to_save = 2147483647
+  and keys_cached = 200000.0
+  and key_cache_save_period = 14400
+  and read_repair_chance = 1.0
+  and gc_grace = 864000
+  and min_compaction_threshold = 4
+  and max_compaction_threshold = 32
+  and replicate_on_write = true
+  and row_cache_provider = 'ConcurrentLinkedHashCacheProvider'
+  and compaction_strategy = 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy';
+
+create column family providers 
+  with column_type = 'Standard'
+  and comparator = 'UTF8Type'
+  and default_validation_class = 'UTF8Type'
+  and key_validation_class = 'UTF8Type'
+  and rows_cached = 0.0
+  and row_cache_save_period = 0
+  and row_cache_keys_to_save = 2147483647
+  and keys_cached = 200000.0
+  and key_cache_save_period = 14400
+  and read_repair_chance = 1.0
+  and gc_grace = 864000
+  and min_compaction_threshold = 4
+  and max_compaction_threshold = 32
+  and replicate_on_write = true
+  and row_cache_provider = 'ConcurrentLinkedHashCacheProvider'
+  and compaction_strategy = 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy'
+  and column_metadata = [
+    {column_name : 'emailaddress',
+    validation_class : UTF8Type},
+    {column_name : 'patientids',
+    validation_class : UTF8Type},
+    {column_name : 'practiceaddresscity',
+    validation_class : UTF8Type},
+    {column_name : 'practiceaddressline1',
+    validation_class : UTF8Type},
+    {column_name : 'practiceaddressline2',
+    validation_class : UTF8Type},
+    {column_name : 'practiceaddressstate',
+    validation_class : UTF8Type},
+    {column_name : 'practiceaddresszip',
+    validation_class : UTF8Type},
+    {column_name : 'practicename',
+    validation_class : UTF8Type},
+    {column_name : 'providerid',
+    validation_class : UTF8Type},
+    {column_name : 'realname',
+    validation_class : UTF8Type},
+    {column_name : 'username',
+    validation_class : UTF8Type}];
+
